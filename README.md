@@ -4,13 +4,13 @@ Usually it is used in microservices architecture in saga pattern  where a servic
 2PC can acheive distributed transaction however its not an option where database and/or the message broker might not support it.
 Also, it is not undesirable to couple the service to both the database and the message broker.
 We can implement outbox either with cdc via debezium to catch the changes out our outbox tables on trailling logs ..(still not finished)
-## 1.Transactional outbox pattern  based on CDC with debezium ,kafka connect and springboot
+## 1.Transactional outbox pattern based on CDC with debezium ,kafka connect and springboot
 Debezium simplify the usage of the outbox with its a ready-to-use SMT single message **transformations** which a feature by debezium to modify the data before getting to publish to kafka topic  with routing outbox events.there are different transformation depending on the usage.\
 To implement the outbox pattern with debezium ,we need to configure a Debezium connector to:\
 1.Capture changes in an outbox table (what database and outbox table to track , database configurations)\
 2.Apply the Debezium outbox event router (SMT) configuration .\
 The connector that is configured to apply the outbox SMT should **only** capture changes that occur in an outbox table like our demo.
-```json
+```shell
 curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json"  localhost:8083/connectors/ -d '{
   "name": "customer-outbox-connector",
   "config": {
