@@ -10,7 +10,7 @@ import com.aschay.TxOutboxDebzium.domain.Outbox;
 
 @Repository
 public interface OutboxRepository extends JpaRepository<Outbox, UUID> {
-	@Modifying(flushAutomatically = true)
+	@Modifying(clearAutomatically=true, flushAutomatically=true)
     void delete(Outbox o);
 }
 
