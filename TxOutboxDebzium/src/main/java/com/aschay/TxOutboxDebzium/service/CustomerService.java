@@ -50,9 +50,9 @@ public class CustomerService {
 		outboxEvent.setType("CustomerCreated");
 		outboxEvent.setPayload(payload);
 		outboxEvent.setAgregatetype(aggrOutbox);
-		outboxRepo.save(outboxEvent);
+		Outbox o=outboxRepo.save(outboxEvent);
 		log.info("\n\n\n\t\tCustomer created with id " + c.getId() + " - \t\t and Outbox entity created with Id: {}", outboxEvent.getId());
-		outboxRepo.delete(outboxEvent);
+		outboxRepo.delete(o);
 		return c.getId();
 		
 	}
@@ -82,9 +82,9 @@ public class CustomerService {
 		outboxEvent.setType("CustomerUpdated");
 		outboxEvent.setPayload(payload);
 		outboxEvent.setAgregatetype(aggrOutbox);
-		outboxRepo.save(outboxEvent);
+		Outbox o=outboxRepo.save(outboxEvent);
 		log.info("\n\n\n\t\tCustomer updated with id " + c.getId() + " - \t\t and Outbox entity created with Id: {}", outboxEvent.getId());
-		outboxRepo.delete(outboxEvent);
+		outboxRepo.delete(o);
 		}
 	}
 	
@@ -100,24 +100,13 @@ public class CustomerService {
 		outboxEvent.setType("CustomerDeleted");
 		outboxEvent.setPayload(payload);
 		outboxEvent.setAgregatetype(aggrOutbox);
-		outboxRepo.save(outboxEvent);
+		Outbox o=outboxRepo.save(outboxEvent);
 		log.info("\n\n\n\t\tCustomer Deleted with id " + id + " - \t\t and Outbox entity created with Id: {}", outboxEvent.getId());
-		outboxRepo.delete(outboxEvent);
+		outboxRepo.delete(o);
 	}
 
 	public Optional<Customer> getByCustomerCode(@Valid UUID id) {
 		return customerRepo.findById(id);
 	}
-
-//	public void replicateData(Map<String, Object> customerData, Operation operation) {
-//		ObjectMapper mapper = new ObjectMapper();
-//		Customer customer = mapper.convertValue(customerData, Customer.class);
-//
-//		if (Operation.DELETE == operation) {
-//			repo.deleteById(customer.getId());
-//		} else {
-//			repo.save(customer);
-//		}
-//	}
 
 }
